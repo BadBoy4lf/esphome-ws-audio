@@ -4,5 +4,6 @@
   "version": "1.0.0",
   "requirements": [],
   "dependencies": [],
-  "codeowners": ["@BadBoy4lf"]
+  "codeowners": ["@BadBoy4lf"],
+  "auto_load": ["websocket_client"]
 }
