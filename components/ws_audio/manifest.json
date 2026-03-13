@@ -1,8 +1,7 @@
 {
   "domain": "ws_audio",
-  "name": "WebSocket Audio Streaming",
+  "name": "WebSocket Audio Component",
   "version": "1.0.0",
-  "documentation": "https://github.com/BadBoy4lf/esphome-ws-audio",
   "requirements": [],
   "dependencies": [],
   "codeowners": ["@BadBoy4lf"]
