@@ -1,0 +1,1 @@
+# required for ESPHome external components
