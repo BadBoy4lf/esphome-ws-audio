@@ -1,37 +1,46 @@
 #pragma once
 #include "esphome.h"
-#include <esp_websocket_client.h>
+#include "esphome/components/websocket_client/websocket_client.h"
 
 class WebSocketAudio : public esphome::Component {
  public:
   void setup() override {
-    esp_websocket_client_config_t cfg = {};
-    cfg.uri = "ws://192.168.177.1:1880/endpoint/audio";
-    client_ = esp_websocket_client_init(&cfg);
+    client_ = new esphome::websocket_client::WebSocketClient();
+
+    // Ziel-URL (Node-RED Endpoint)
+    client_->set_url("ws://192.168.177.1:1880/endpoint/audio");
+
+    // Optional: Auto-Reconnect aktivieren
+    client_->set_reconnect(true);
+
+    ESP_LOGI("ws_audio", "WebSocketAudio setup completed");
   }
 
   void start_stream() {
     if (!client_) return;
+
     ESP_LOGI("ws_audio", "Starting WebSocket stream…");
-    esp_websocket_client_start(client_);
+    client_->connect();
     active_ = true;
   }
 
   void stop_stream() {
     if (!client_) return;
+
     ESP_LOGI("ws_audio", "Stopping WebSocket stream…");
-    esp_websocket_client_stop(client_);
+    client_->close();
     active_ = false;
   }
 
   void send_chunk(const uint8_t *data, size_t len) {
     if (!active_ || !client_) return;
-    esp_websocket_client_send_bin(client_, (const char *)data, len, portMAX_DELAY);
+
+    client_->send_binary(data, len);
   }
 
   bool is_active() const { return active_; }
 
  private:
-  esp_websocket_client_handle_t client_{nullptr};
+  esphome::websocket_client::WebSocketClient *client_{nullptr};
   bool active_{false};
 };
