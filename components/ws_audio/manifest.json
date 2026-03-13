@@ -1,8 +1,0 @@
-{
-  "domain": "ws_audio",
-  "name": "WebSocket Audio Component",
-  "version": "1.0.0",
-  "requirements": [],
-  "dependencies": [],
-  "codeowners": ["@BadBoy4lf"]
-}
