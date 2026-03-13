@@ -6,19 +6,13 @@ class WebSocketAudio : public esphome::Component {
  public:
   void setup() override {
     client_ = new esphome::websocket_client::WebSocketClient();
-
-    // Ziel-URL (Node-RED Endpoint)
     client_->set_url("ws://192.168.177.1:1880/endpoint/audio");
-
-    // Optional: Auto-Reconnect aktivieren
     client_->set_reconnect(true);
-
     ESP_LOGI("ws_audio", "WebSocketAudio setup completed");
   }
 
   void start_stream() {
     if (!client_) return;
-
     ESP_LOGI("ws_audio", "Starting WebSocket stream…");
     client_->connect();
     active_ = true;
@@ -26,7 +20,6 @@ class WebSocketAudio : public esphome::Component {
 
   void stop_stream() {
     if (!client_) return;
-
     ESP_LOGI("ws_audio", "Stopping WebSocket stream…");
     client_->close();
     active_ = false;
@@ -34,7 +27,6 @@ class WebSocketAudio : public esphome::Component {
 
   void send_chunk(const uint8_t *data, size_t len) {
     if (!active_ || !client_) return;
-
     client_->send_binary(data, len);
   }
 
